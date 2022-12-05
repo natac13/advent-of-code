@@ -5,16 +5,16 @@ import path from "path";
 const input = fs.readFileSync(path.resolve(__dirname, "input.txt"), "utf8");
 
 // number groups will be separated by a blank line
-const groups = input.split("\n\n");
+const groupsOfNumber = input.split("\n\n");
 
-console.log(groups);
+// total number of calories in the each groupsOfNumber
+const totalCalories = groupsOfNumber.map((group) => {
+  const numbers = group.split("\n").map(Number);
 
-// find the group of numbers which has the highest sum
-const maxGroup = groups.reduce((max: number, group: string) => {
-  const sum = group.split("\n").reduce((sum, line) => sum + parseInt(line), 0);
-  return sum > max ? sum : max;
-}, 0);
+  return numbers.reduce((acc, num) => acc + num, 0);
+});
 
-console.log(maxGroup);
+const topThree = totalCalories.sort((a, b) => b - a).slice(0, 3);
+console.log("The top three calorie counts are:", topThree.join(", "));
 
-// console.log(maxGroup)
+console.log(topThree.reduce((acc, num) => acc + num, 0));
